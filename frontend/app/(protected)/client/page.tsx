@@ -149,7 +149,7 @@ export default function ClientProductsByCategory() {
                 ←
               </span>{" "}
               <span className="text-xs lg:text-sm font-semibold tracking-[0.18em] text-[#e9e6ff] uppercase">
-                Back to Dashboard View
+                Back A
               </span>
             </button>
 
