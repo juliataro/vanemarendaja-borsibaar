@@ -188,7 +188,7 @@ export default function ClientProductsByCategory() {
 
                     <table className="w-full text-xs lg:text-sm border-separate border-spacing-y-1 break-before-avoid">
                       <thead className="break-after-avoid">
-                        <tr className="text-[9px] lg:text-[10px] xl:text-[12px] uppercase tracking-[0.16em] text-[#7a7690]">
+                        <tr className="text-[9px] lg:text-[10px] xl:text-[14px] uppercase tracking-[0.16em] text-[#7a7690]">
                           <th className="px-2 py-1 text-left">Product</th>
                           <th className="px-2 py-1 text-right">Price</th>
                           <th className="px-2 py-1 text-right">Δ%</th>
@@ -256,7 +256,7 @@ export default function ClientProductsByCategory() {
 
             {!totalItems && !loading && (
               <div className="col-span-full flex h-40 items-center justify-center text-lg text-[#a7a3c7]">
-                No products to display
+                No Products To Display
               </div>
             )}
           </div>
