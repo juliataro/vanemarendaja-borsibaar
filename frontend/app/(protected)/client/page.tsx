@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import Chart from "./Chart";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 type Category = { id: number; name: string; organizationId?: number };
@@ -28,8 +29,8 @@ const sponsors = [
   { name: "Red Bull", logo: "/redbull.svg" },
   { name: "itük", logo: "/ituk_long_nottu_red.svg" },
   { name: "alecoq", logo: "/alecoq.svg" },
-  { name: "insük", logo: "/insyk.png"},
-  { name: "anora", logo: "/anora-group-logo-white-CMYK.png"}
+  { name: "insük", logo: "/insyk.png" },
+  { name: "anora", logo: "/anora-group-logo-white-CMYK.png" },
 ];
 
 export default function ClientProductsByCategory() {
@@ -51,13 +52,13 @@ export default function ClientProductsByCategory() {
           {
             cache: "no-store",
             credentials: "include",
-          }
+          },
         );
         if (!cRes.ok) throw new Error(`Categories HTTP ${cRes.status}`);
         const cJson = await cRes.json();
         const categoryList: Category[] = Array.isArray(cJson)
           ? cJson
-          : cJson?.items ?? cJson?.content ?? [];
+          : (cJson?.items ?? cJson?.content ?? []);
 
         if (!alive) return;
         setCats(categoryList);
@@ -68,14 +69,14 @@ export default function ClientProductsByCategory() {
             {
               cache: "no-store",
               credentials: "include",
-            }
+            },
           );
           if (!res.ok)
             throw new Error(`Inventory HTTP ${res.status} (cat ${c.id})`);
           const j = await res.json();
           const arr: InvDto[] = Array.isArray(j)
             ? j
-            : j?.items ?? j?.content ?? [];
+            : (j?.items ?? j?.content ?? []);
           return [c.name, arr] as const;
         });
 
@@ -83,7 +84,7 @@ export default function ClientProductsByCategory() {
         if (!alive) return;
 
         const grouped = Object.fromEntries(
-          results.filter(([, arr]) => arr.length > 0)
+          results.filter(([, arr]) => arr.length > 0),
         );
         setGroups(grouped);
         setErr(null);
@@ -105,8 +106,12 @@ export default function ClientProductsByCategory() {
 
   const totalItems = Object.values(groups).reduce(
     (sum, arr) => sum + arr.length,
-    0
+    0,
   );
+
+  // TODO: Button to go back to DASHBOARD page, where the user can select different views in sidebar
+
+  const router = useRouter();
 
   return (
     <div className="w-full bg-[#141224] text-white px-4 py-4 flex items-stretch justify-center flex flex-col gap-4">
@@ -118,13 +123,45 @@ export default function ClientProductsByCategory() {
         )}
 
         <section className="rounded-2xl bg-[#1b1830] border border-[#2a2640] p-4 flex flex-col basis-2/3">
-          <div className="mb-3 flex items-center justify-between">
+          {/* Back Button*/}
+
+          <div className="mb-3 flex flex-col gap-3">
+            <button
+              type="button"
+              onClick={() => router.push("/dashboard")}
+              className="
+                mb-3
+                inline-flex
+                items-center
+                gap-2
+                px-4
+                py-2
+                rounded-xl
+                border
+                border-[#A78BFA]/60
+                bg-[#A78BFA]/15
+                hover:bg-[#A78BFA]/20
+                shadow-lg shadow-[#A78BFA]/20
+                transition-all
+              "
+            >
+              <span className="text-[#8b88a9] group-hover:text-white transition-colors">
+                ←
+              </span>{" "}
+              <span className="text-xs lg:text-sm font-semibold tracking-[0.18em] text-[#e9e6ff] uppercase">
+                Back
+              </span>
+            </button>
+
             <h2 className="text-lg md:text-xl font-semibold tracking-wide">
               Products by Category
             </h2>
           </div>
 
-          <div className="columns-1 min-[1800px]:!columns-2 gap-4 min-[1800px]:max-h-[90vh]" style={{ "columnFill": "auto" }}>
+          <div
+            className="columns-1 min-[1800px]:!columns-2 gap-4 min-[1800px]:max-h-[90vh]"
+            style={{ columnFill: "auto" }}
+          >
             {loading && !totalItems && (
               <div className="col-span-full flex h-40 items-center justify-center text-lg text-[#a7a3c7]">
                 Loading…
@@ -165,7 +202,7 @@ export default function ClientProductsByCategory() {
                         {items
                           .slice()
                           .sort((a, b) =>
-                            a.productName.localeCompare(b.productName)
+                            a.productName.localeCompare(b.productName),
                           )
                           .map((p) => {
                             const diff = p.unitPrice - p.basePrice;
@@ -196,9 +233,7 @@ export default function ClientProductsByCategory() {
                                     "px-2 py-1 text-right tabular-nums font-semibold whitespace-nowrap",
                                     isUp && "text-emerald-400",
                                     isDown && "text-red-400",
-                                    !isUp &&
-                                    !isDown &&
-                                    "text-[#8b88a9]"
+                                    !isUp && !isDown && "text-[#8b88a9]",
                                   )}
                                 >
                                   {diff === 0 ? (
@@ -238,7 +273,8 @@ export default function ClientProductsByCategory() {
                 src="/tudengibaarlogo.png"
                 alt="Tudengibaar"
                 className="h-full object-contain"
-              /></div>
+              />
+            </div>
           </header>
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-lg md:text-xl font-semibold tracking-wide">
@@ -269,9 +305,7 @@ export default function ClientProductsByCategory() {
       </div>
 
       {/* FOOTER – sponsorid, aga ikka sama kaardi sees */}
-      <footer className="mt-10 flex justify-center hidden">
-
-      </footer>
+      <footer className="mt-10 flex justify-center hidden"></footer>
     </div>
   );
 }
