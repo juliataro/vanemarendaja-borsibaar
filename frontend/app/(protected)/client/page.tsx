@@ -146,7 +146,7 @@ export default function ClientProductsByCategory() {
                 ←
               </span>{" "}
               <span className="text-xs lg:text-sm font-semibold tracking-[0.18em] text-[#e9e6ff] uppercase">
-                Back
+                Back Conflict Name
               </span>
             </button>
 
