@@ -121,7 +121,7 @@ export default function ClientProductsByCategory() {
             {err}
           </div>
         )}
-
+        i{" "}
         <section className="rounded-2xl bg-[#1b1830] border border-[#2a2640] p-4 flex flex-col basis-2/3">
           {/* Back Button*/}
 
@@ -149,7 +149,7 @@ export default function ClientProductsByCategory() {
                 ←
               </span>{" "}
               <span className="text-xs lg:text-sm font-semibold tracking-[0.18em] text-[#e9e6ff] uppercase">
-                Back
+                Back To Dashboard
               </span>
             </button>
 
@@ -264,7 +264,6 @@ export default function ClientProductsByCategory() {
             )}
           </div>
         </section>
-
         {/* PAREM – graafik samas boardis */}
         <section className="rounded-2xl border border-[#2a2640] bg-[#1b1830] p-4 flex flex-col gap-4">
           <header className="flex flex-col gap-2 text-center justify-between pb-4">
